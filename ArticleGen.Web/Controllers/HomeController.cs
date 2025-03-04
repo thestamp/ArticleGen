@@ -12,12 +12,14 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly GenArticleService _articleService;
+    private readonly GenCategoryService _categoryService;
 
 
-    public HomeController(ILogger<HomeController> logger, GenArticleService articleService)
+    public HomeController(ILogger<HomeController> logger, GenArticleService articleService, GenCategoryService categoryService)
     {
         _logger = logger;
         _articleService = articleService;
+        _categoryService = categoryService;
     }
 
     public IActionResult Index()
@@ -25,9 +27,20 @@ public class HomeController : Controller
         return View();
     }
 
-    public async Task<IActionResult> Article(string? topic = null, string? name = null)
+    public async Task<IActionResult> Article(string? category, string name)
     {
-        var response = await _articleService.GenerateArticle(topic, name, "n/a");
+        var response = await _articleService.GenerateArticle(category, name, "n/a");
+        var botResponse = "";
+        await foreach (var res in response)
+        {
+            botResponse += res;
+        }
+        return Content(botResponse);
+    }
+
+    public async Task<IActionResult> Category(string category)
+    {
+        var response = await _categoryService.GenerateCategoryArticles(category);
         var botResponse = "";
         await foreach (var res in response)
         {

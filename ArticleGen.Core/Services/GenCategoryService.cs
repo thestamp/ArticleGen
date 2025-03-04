@@ -10,16 +10,16 @@ using Enlighten.Gpt.Client.Services;
 
 namespace ArticleGen.Core.Services
 {
-    public class GenArticleService
+    public class GenCategoryService
     {
         private readonly GptClientSettingsModel _clientSettings;
 
-        public GenArticleService(GptClientSettingsModel clientSettings)
+        public GenCategoryService(GptClientSettingsModel clientSettings)
         {
             _clientSettings = clientSettings;
         }
 
-        public async Task<IAsyncEnumerable<string>> GenerateArticle(string articleCategory, string articleName, string articleHeadline)
+        public async Task<IAsyncEnumerable<string>> GenerateCategoryArticles(string category)
         {
             var client = new GptClientService(_clientSettings);
 
@@ -29,7 +29,7 @@ namespace ArticleGen.Core.Services
 
 
             // The bot is requested to generate a short-answer question based on the textbook content
-            var response = await client.StreamResponse(conversationSettings, $"Based on {articleCategory}, generate a magazine article about 500 words long, named \"{articleName}\".");
+            var response = await client.StreamResponse(conversationSettings, $"Based on {category}, generate a json of a list of articles with the following structure {{articles[]: {{name,headline}}}}.");
             return response;
         }
 

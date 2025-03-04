@@ -14,6 +14,7 @@ var configuration = new ConfigurationBuilder()
 
 
 builder.Services.AddScoped<GenArticleService>();
+builder.Services.AddScoped<GenCategoryService>();
 var gptClientSettings = configuration.BindAndAddSingleton<GptClientSettingsModel>(builder.Services, "GptClientSettings");
 builder.AddServiceDefaults();
 
