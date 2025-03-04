@@ -1,5 +1,20 @@
-var builder = WebApplication.CreateBuilder(args);
+using ArticleGen.Core.Services;
+using Common.OpenAiClient.Configuration;
+using Common.Web;
+using Microsoft.Extensions.Configuration;
 
+var builder = WebApplication.CreateBuilder(args);
+//settings
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory()) // Ensures that the app can find the appsettings.json file in the current directory
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables() // Adds environment variables to the configuration
+    .AddUserSecrets<Program>()
+    .Build();
+
+
+builder.Services.AddScoped<GenArticleService>();
+var gptClientSettings = configuration.BindAndAddSingleton<GptClientSettingsModel>(builder.Services, "GptClientSettings");
 builder.AddServiceDefaults();
 
 // Add services to the container.
