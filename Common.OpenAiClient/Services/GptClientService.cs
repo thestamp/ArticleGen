@@ -24,10 +24,10 @@ namespace Enlighten.Gpt.Client.Services
         }
 
 
-        public async Task<string> GetResponse(ConversationSettingsModel settings, string userInput)
+        public async Task<string> GetResponseAsync(ConversationSettingsModel settings, string userInput)
         {
             var chat = client.Chat.CreateConversation();
-            chat.Model = Model.GPT4;
+            chat.Model = Model.ChatGPTTurbo;
 
             // give instruction as System
             chat.AppendSystemMessage(settings.SystemMessage);

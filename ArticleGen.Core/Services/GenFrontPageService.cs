@@ -12,16 +12,16 @@ using Enlighten.Gpt.Client.Services;
 
 namespace ArticleGen.Core.Services
 {
-    public class GenArticleService
+    public class GenFrontPageService
     {
         private readonly GptClientSettingsModel _clientSettings;
 
-        public GenArticleService(GptClientSettingsModel clientSettings)
+        public GenFrontPageService(GptClientSettingsModel clientSettings)
         {
             _clientSettings = clientSettings;
         }
 
-        public async Task<ArticleModel> GenerateArticle(string industry, string articleCategory, string articleName, string articleHeadline)
+        public async Task<FrontPageModel> GenerateFrontPage(string industry)
         {
             var client = new GptClientService(_clientSettings);
 
@@ -29,27 +29,40 @@ namespace ArticleGen.Core.Services
 
             var conversationSettings = InitializeConversation();
 
-           
-
+            var prompt = $"Based on {industry}, a list of 5 categories and 3 article names each.";
             // The bot is requested to generate a short-answer question based on the textbook content
-            var response = await client.GetResponseAsync(conversationSettings, $"Based on {industry} industry and {articleCategory} category, generate a magazine article about 500 words long, named \"{articleName}\".");
+            var response = await client.GetResponseAsync(conversationSettings, prompt);
 
-            var model = JsonSerializer.Deserialize<ArticleModel>(response);
+            var model = JsonSerializer.Deserialize<FrontPageModel>(response);
             return model;
         }
 
         public ConversationSettingsModel InitializeConversation()
         {
-            var example = new ArticleModel()
+
+            var example = new FrontPageModel()
             {
-                Name = "ArticleName",
-                Body = "ArticleBody, in markdown syntax"
+
+                Industry = "industry",
+                Categories = new[]
+                {
+                    new FrontPageModel.FrontPageCategoryModel()
+                    {
+                        Name = "Category1Name",
+                        ArticleNames = new string[] { "ArticleName1", "ArticleName2", "ArticleName3" },
+                    },
+                    new FrontPageModel.FrontPageCategoryModel()
+                    {
+                        Name = "Category2Name",
+                        ArticleNames = new string[] { "ArticleName1", "ArticleName2", "ArticleName3" },
+                    }
+                }
 
             };
 
             var jsonExample = JsonSerializer.Serialize(example); ;
 
-
+            //todo topic settings support
             var conversationSettings = new ConversationSettingsModel()
             {
                 SystemMessage = $"You are an AI article generator, your goal is to help users understand and remember their articles. you only return properly escaped json (use \\n instead of 0x0A) in the following structure: {jsonExample} "

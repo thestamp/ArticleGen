@@ -13,40 +13,44 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly GenArticleService _articleService;
     private readonly GenCategoryService _categoryService;
+    private readonly GenFrontPageService _frontPageService;
 
 
-    public HomeController(ILogger<HomeController> logger, GenArticleService articleService, GenCategoryService categoryService)
+    public HomeController(ILogger<HomeController> logger, GenArticleService articleService, GenCategoryService categoryService, GenFrontPageService frontPageService)
     {
         _logger = logger;
         _articleService = articleService;
         _categoryService = categoryService;
+        _frontPageService = frontPageService;
     }
 
     public IActionResult Index()
     {
+
+
+
         return View();
     }
 
-    public async Task<IActionResult> Article(string? category, string name)
+    public async Task<IActionResult> FrontPage(string? industry)
     {
-        var response = await _articleService.GenerateArticle(category, name, "n/a");
-        var botResponse = "";
-        await foreach (var res in response)
-        {
-            botResponse += res;
-        }
-        return Content(botResponse);
+        var response = await _frontPageService.GenerateFrontPage(industry);
+
+        return Json(response);
     }
 
-    public async Task<IActionResult> Category(string category)
+    public async Task<IActionResult> Article(string? industry, string? category, string name)
     {
-        var response = await _categoryService.GenerateCategoryArticles(category);
-        var botResponse = "";
-        await foreach (var res in response)
-        {
-            botResponse += res;
-        }
-        return Content(botResponse);
+        var response = await _articleService.GenerateArticle(industry, category, name, "n/a");
+
+        return Json(response);
+    }
+
+    public async Task<IActionResult> Category(string? industry, string? category)
+    {
+        var response = await _categoryService.GenerateCategoryArticles(industry, category);
+ 
+        return Json(response);
     }
 
     public IActionResult Privacy()
