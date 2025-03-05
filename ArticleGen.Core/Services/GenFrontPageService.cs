@@ -33,7 +33,7 @@ namespace ArticleGen.Core.Services
             // The bot is requested to generate a short-answer question based on the textbook content
             var response = await client.GetResponseAsync(conversationSettings, prompt);
 
-            var model = JsonSerializer.Deserialize<FrontPageModel>(response);
+            var model = JsonSerializer.Deserialize<FrontPageModel>(response)!;
             return model;
         }
 
@@ -48,13 +48,13 @@ namespace ArticleGen.Core.Services
                 {
                     new FrontPageModel.FrontPageCategoryModel()
                     {
-                        Name = "Category1Name",
-                        ArticleNames = new string[] { "ArticleName1", "ArticleName2", "ArticleName3" },
+                        Category = "Category1Name",
+                        CategoryArticleNames = new string[] { "ArticleName1", "ArticleName2", "ArticleName3" },
                     },
                     new FrontPageModel.FrontPageCategoryModel()
                     {
-                        Name = "Category2Name",
-                        ArticleNames = new string[] { "ArticleName1", "ArticleName2", "ArticleName3" },
+                        Category = "Category2Name",
+                        CategoryArticleNames = new string[] { "ArticleName1", "ArticleName2", "ArticleName3" },
                     }
                 }
 

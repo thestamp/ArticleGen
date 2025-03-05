@@ -27,30 +27,28 @@ public class HomeController : Controller
     public IActionResult Index()
     {
 
-
-
         return View();
     }
 
-    public async Task<IActionResult> FrontPage(string? industry)
+    public async Task<IActionResult> FrontPage(string industry = null)
     {
-        var response = await _frontPageService.GenerateFrontPage(industry);
+        var model = await _frontPageService.GenerateFrontPage(industry);
 
-        return Json(response);
+        return View(model);
     }
 
-    public async Task<IActionResult> Article(string? industry, string? category, string name)
+    public async Task<IActionResult> Article(string industry, string category, string article)
     {
-        var response = await _articleService.GenerateArticle(industry, category, name, "n/a");
+        var model = await _articleService.GenerateArticle(industry, category, article);
 
-        return Json(response);
+        return View(model);
     }
 
-    public async Task<IActionResult> Category(string? industry, string? category)
+    public async Task<IActionResult> Category(string industry, string category)
     {
-        var response = await _categoryService.GenerateCategoryArticles(industry, category);
+        var model = await _categoryService.GenerateCategoryArticles(industry, category);
  
-        return Json(response);
+        return View(model);
     }
 
     public IActionResult Privacy()

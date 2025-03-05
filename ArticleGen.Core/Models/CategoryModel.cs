@@ -8,13 +8,14 @@ namespace ArticleGen.Core.Models
 {
     public class CategoryModel
     {
-        public string Name { get; set; }
-        public ArticleModel[] Articles { get; set; }
+        public string Industry { get; set; }
+        public string CategoryName { get; set; }
+        public ArticleModel[] CategoryArticles { get; set; }
 
         public class ArticleModel
         {
-            public string Name { get; set; }
-            public string Headline { get; set; }
+            public string ArticleName { get; set; }
+            public string ArticleHeadline { get; set; }
         }
     }
 

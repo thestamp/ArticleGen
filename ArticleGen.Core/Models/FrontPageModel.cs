@@ -11,8 +11,8 @@ namespace ArticleGen.Core.Models
         public string Industry { get; set; }
         public class FrontPageCategoryModel
         {
-            public string Name { get; set; }
-            public string[] ArticleNames { get; set; }
+            public string Category { get; set; }
+            public string[] CategoryArticleNames { get; set; }
         }
 
         public FrontPageCategoryModel[] Categories { get; set; }

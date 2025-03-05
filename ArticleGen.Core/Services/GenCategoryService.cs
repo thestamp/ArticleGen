@@ -40,18 +40,19 @@ namespace ArticleGen.Core.Services
         {
             var example = new CategoryModel()
             {
-                Name = "CategoryName",
-                Articles = new[]
+                Industry = "Industry Name",
+                CategoryName = "Category Name",
+                CategoryArticles = new[]
                 {
                     new CategoryModel.ArticleModel()
                     {
-                        Name = "ArticleName",
-                        Headline = "ArticleHeadline"
+                        ArticleName = "Article Name",
+                        ArticleHeadline = "Article Headline"
                     },
                     new CategoryModel.ArticleModel()
                     {
-                        Name = "ArticleName",
-                        Headline = "ArticleHeadline"
+                        ArticleName = "Article Name",
+                        ArticleHeadline = "Article Headline"
                     }
                 }
 

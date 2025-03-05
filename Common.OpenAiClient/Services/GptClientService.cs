@@ -49,7 +49,7 @@ namespace Enlighten.Gpt.Client.Services
         public async Task<IAsyncEnumerable<string>> StreamResponse(ConversationSettingsModel settings, string userInput)
         {
             var chat = client.Chat.CreateConversation();
-            chat.Model = Model.ChatGPTTurbo;
+            chat.Model = Model.GPT4_Turbo;
 
             // give instruction as System
             chat.AppendSystemMessage(settings.SystemMessage);

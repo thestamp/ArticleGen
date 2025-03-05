@@ -8,7 +8,8 @@ namespace ArticleGen.Core.Models
 {
     public class ArticleModel
     {
-        public string Name { get; set; }
-        public string Body { get; set; }
+        public string ArticleName { get; set; }
+        public string Content { get; set; }
+        public string Industry { get; set; }
     }
 }
