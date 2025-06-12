@@ -63,6 +63,7 @@ public class HomeController : Controller
         return View(model);
     }
 
+    [ResponseCache(Duration = 1800, Location = ResponseCacheLocation.Any)]
     public async Task<IActionResult> Article(string industry, string category, string article)
     {
         var model = await _articleService.GenerateArticle(industry, category, article);
@@ -70,6 +71,7 @@ public class HomeController : Controller
         return View(model);
     }
 
+    [ResponseCache(Duration = 1800, Location = ResponseCacheLocation.Any)]
     public async Task<IActionResult> Category(string industry, string category)
     {
         var model = await _categoryService.GenerateCategoryArticles(industry, category);
