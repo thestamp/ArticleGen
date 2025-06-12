@@ -1,11 +1,85 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Personal Development & Self-Improvement";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <form asp-controller="Home" asp-action="FrontPage" method="get">
-        <input type="text" name="industry" placeholder="Enter Industry" />
-        <button type="submit">Go to Front Page</button>
-    </form>
-</div>
+<section class="hero-section">
+    <div class="container">
+        <h1><i class="fas fa-lightbulb me-3"></i>Transform Your Life</h1>
+        <p class="lead">Discover expert advice, practical tips, and inspiring content to help you grow personally and professionally.</p>
+        <div class="hero-form">
+            <form asp-controller="Home" asp-action="FrontPage" method="get" class="d-flex gap-3">
+                <input type="text" name="industry" class="form-control flex-grow-1" placeholder="Enter a topic (e.g., Health, Career, Relationships)" required />
+                <button type="submit" class="btn btn-warning btn-lg">
+                    <i class="fas fa-search me-2"></i>Explore Articles
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold mb-3">Popular Categories</h2>
+                <p class="lead text-muted">Explore our most popular self-improvement topics</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h4 class="category-title">Health & Wellness</h4>
+                    <p class="category-count">Physical and mental well-being tips</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h4 class="category-title">Career Growth</h4>
+                    <p class="category-count">Professional development strategies</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4 class="category-title">Relationships</h4>
+                    <p class="category-count">Building meaningful connections</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h4 class="category-title">Financial Success</h4>
+                    <p class="category-count">Money management and wealth building</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4 class="category-title">Mindset & Psychology</h4>
+                    <p class="category-count">Mental frameworks for success</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4 class="category-title">Productivity</h4>
+                    <p class="category-count">Time management and efficiency</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

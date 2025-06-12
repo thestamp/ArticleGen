@@ -1,21 +1,73 @@
 ﻿@model ArticleGen.Core.Models.FrontPageModel
 
-<h1>@Model.Industry</h1>
-
-<ul>
-    @foreach (var i in Model.Categories)
-    {
-        <a href="@Url.Action("Category", new { category = i.Category, industry = Model.Industry })">@i.Category</a>
-        <ul>
-            @foreach (var a in i.CategoryArticleNames)
-            {
-                <li>
-                    <a href="@Url.Action("Article", new { category = i.Category, article = a, industry = Model.Industry })">@a</a>
-                </li>
-            }
-
-        </ul>
-    }
-</ul>
 @{
+    ViewData["Title"] = Model.Industry + " - Self Help Articles";
 }
+
+<div class="page-header">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Industry</li>
+            </ol>
+        </nav>
+        <h1><i class="fas fa-lightbulb me-3"></i>@Model.Industry Self-Help Articles</h1>
+        <p class="lead">Discover expert insights and practical advice to improve your @Model.Industry.ToLower() journey.</p>
+    </div>
+</div>
+
+<div class="container">
+    @foreach (var category in Model.Categories)
+    {
+        <section class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold text-primary-custom">
+                    <i class="fas fa-folder-open me-2"></i>@category.Category
+                </h2>
+                <a href="@Url.Action("Category", new { category = category.Category, industry = Model.Industry })" 
+                   class="btn btn-outline-primary btn-sm">
+                    View All <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+            
+            <div class="row g-4">
+                @foreach (var article in category.CategoryArticleNames)
+                {
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card article-card">
+                            <div class="article-card-body">
+                                <h5 class="article-card-title">@article</h5>
+                                <p class="article-card-text">
+                                    Discover practical strategies and expert insights about @article.ToLower() 
+                                    to help you succeed in your @Model.Industry.ToLower() journey.
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="@Url.Action("Article", new { category = category.Category, article = article, industry = Model.Industry })" 
+                                       class="btn btn-primary-custom btn-sm">
+                                        <i class="fas fa-book-open me-1"></i>Read Article
+                                    </a>
+                                    <small class="text-muted">
+                                        <i class="fas fa-clock me-1"></i>5 min read
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+    
+    @if (!Model.Categories.Any())
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h3>No articles found</h3>
+            <p class="text-muted">Try searching for a different topic or browse our popular categories.</p>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary-custom">
+                <i class="fas fa-home me-2"></i>Back to Home
+            </a>
+        </div>
+    }
+</div>
