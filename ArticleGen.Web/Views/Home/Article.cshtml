@@ -1,0 +1,9 @@
+﻿@using ArticleGen.Web.Helpers
+@model ArticleGen.Core.Models.ArticleModel
+
+
+<h1>@Model.ArticleName</h1>
+
+@Html.Raw(MarkdownHelper.ConvertMarkdownToHtml(Model.Content))
+@{
+}
