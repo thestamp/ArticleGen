@@ -1,0 +1,21 @@
+﻿@model ArticleGen.Core.Models.FrontPageModel
+
+<h1>@Model.Industry</h1>
+
+<ul>
+    @foreach (var i in Model.Categories)
+    {
+        <a href="@Url.Action("Category", new { category = i.Category, industry = Model.Industry })">@i.Category</a>
+        <ul>
+            @foreach (var a in i.CategoryArticleNames)
+            {
+                <li>
+                    <a href="@Url.Action("Article", new { category = i.Category, article = a, industry = Model.Industry })">@a</a>
+                </li>
+            }
+
+        </ul>
+    }
+</ul>
+@{
+}
