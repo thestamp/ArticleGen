@@ -7,13 +7,28 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+# Set environment variables for production container hosting
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
+
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
+# Copy project files in dependency order for better layer caching
+COPY ["Common.OpenAiClient/Common.OpenAiClient.csproj", "Common.OpenAiClient/"]
+COPY ["Common.Web/Common.Web.csproj", "Common.Web/"]
+COPY ["ArticleGen.Core/ArticleGen.Core.csproj", "ArticleGen.Core/"]
+COPY ["ArticleGen.ServiceDefaults/ArticleGen.ServiceDefaults.csproj", "ArticleGen.ServiceDefaults/"]
 COPY ["ArticleGen.Web/ArticleGen.Web.csproj", "ArticleGen.Web/"]
+
+# Restore dependencies
 RUN dotnet restore "./ArticleGen.Web/ArticleGen.Web.csproj"
+
+# Copy all source code
 COPY . .
 WORKDIR "/src/ArticleGen.Web"
 RUN dotnet build "./ArticleGen.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build

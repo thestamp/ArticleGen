@@ -1,0 +1,55 @@
+# Azure Container Apps deployment configuration
+# This file provides example configuration for deploying to Azure Container Apps
+# Use Azure CLI: az containerapp create --yaml containerapp.yaml
+
+location: eastus2
+type: Microsoft.App/containerApps
+apiVersion: 2023-05-01
+name: articlegen-web
+properties:
+  managedEnvironmentId: /subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.App/managedEnvironments/{environment-name}
+  configuration:
+    activeRevisionsMode: Single
+    ingress:
+      external: true
+      targetPort: 8080
+      transport: http
+      allowInsecure: false
+    secrets:
+      - name: gpt-client-settings-apikey
+        value: "{your-openai-api-key}"
+  template:
+    containers:
+      - name: articlegen-web
+        image: {your-container-registry}/articlegen-web:latest
+        resources:
+          cpu: 0.5
+          memory: 1Gi
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Production
+          - name: ASPNETCORE_URLS
+            value: http://+:8080
+          - name: GptClientSettings__ApiKey
+            secretRef: gpt-client-settings-apikey
+        probes:
+          - type: Liveness
+            httpGet:
+              path: /alive
+              port: 8080
+            periodSeconds: 30
+            timeoutSeconds: 10
+          - type: Readiness
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 5
+    scale:
+      minReplicas: 0
+      maxReplicas: 10
+      rules:
+        - name: http-rule
+          http:
+            metadata:
+              concurrentRequests: "100"

@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  articlegen-web:
+    build:
+      context: .
+      dockerfile: ArticleGen.Web/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080;https://+:8081
+      - ASPNETCORE_HTTPS_PORT=8081
+    volumes:
+      # Mount user secrets for development
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      # Mount ASP.NET Core HTTPS development certificate
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
